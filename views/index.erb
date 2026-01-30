@@ -3,11 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projekt #2</title>
+    <title>FlixMax - Hem</title>
     <link rel="stylesheet" type="text/css" href="/style.css?<%=Time.now.to_i%>">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close" />
 </head>
 <body>
-  <h1>Webbserverprogrammering 1 - Slutprojekt</h1>
-  <img src="/img/glhf.png">
+    <div class="indexButtons">
+        <a href="/add" class="newbutton">New Movie</a>
+        <div style="background-color:yellowgreen;" class ="legend right">Info</div>
+        <div style="background-color:blue;" class="legend">Watched?</div>
+    </div>
+    <h2>Movies to watch</h2>
+    <div class="indexGrid">
+        <% @unwatchedmovies.each do |movie| %>
+        <div class="movieBox" style="background-image: url(<%=movie['poster']%>); 
+                                    background-repeat: no-repeat; 
+                                    background-size: 100% 100%;">
+                <a href="/show/<%=movie['id']%>" id=""><button id="infobutton"></button></a>
+                <form action="/review/<%=movie['id']%>" method="GET">
+                    <button id="watchedbutton" type="submit" name="id" value="<%=movie['id']%>"></button>
+                <form action="/delete" method="POST">
+                    <button id="deletebutton" type="submit" name="id" value="<%=movie['id']%>"><span class="material-symbols-outlined">close</span></button>
+                </form>
+        </div>
+        <%end%>
+    </div>
+    <hr>
+    <h2>Watched Movies</h2>
+    <div class="indexGrid">
+        <% @watchedmovies.each do |movie| %>
+        <div class="movieBox" style="background-image: url(<%=movie['poster']%>); 
+                                    background-repeat: no-repeat; 
+                                    background-size: 100% 100%;">
+                <a href="/show/<%=movie['id']%>" id=""><button id="infobutton"></button></a>
+                <form action="/delete" method="POST">
+                    <button id="deletebutton" type="submit" name="id" value="<%=movie['id']%>"><span class="material-symbols-outlined">close</span></button>
+                </form>
+        </div>
+        <%end%>
+    </div>
 </body>
 </html>

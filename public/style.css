@@ -1,7 +1,209 @@
+* {
+  font-family: helvetica;
+}
+
 body {
-  font-family: sans-serif;
-  color: #666;
-  background-color: #f1f1f1;
-  font-size: x-large;
-  margin: 1em;
+  background-color: white;
+}
+
+.movieBox {
+  border: 2px solid black;
+  border-radius: 10px;
+  width: 100px;
+  margin: 25px;
+  padding: 20px;
+  text-align: center;
+  height: 150px;
+  display: flex;
+  justify-content: space-around;
+  align-items: end;
+  position: relative;
+  overflow: hidden;
+
+} 
+
+.normal {
+  margin: 10px;
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 3px;
+  padding: 5px;
+}
+
+.form {
+  margin-left: 20px;
+  background-color: grey;
+  width: 300px;
+  padding: 15px;
+  border-radius: 25px;
+}
+
+.poster {
+  z-index: -1;
+  width: 100%;
+}
+
+.genres {
+  border: 1px solid black;
+  border-radius: 25px;
+  width: 200px;
+  padding: 25px;
+  margin-top: 0;
+  color: white;
+}
+
+h4 {
+  margin-bottom: 0;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.movieBox button {
+  width: 20%;
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  border: 1px solid black;
+  bottom: -10%;
+  scale: 0.85;
+  font-weight: bolder;
+  cursor: pointer;
+}
+
+#watchedbutton {
+  width: 27%;
+  background-color: blue;
+  transition: 250ms ease
+}
+
+#deletebutton {
+  right: -5%;
+  aspect-ratio: 1;
+  background-color: transparent;
+  border: none;
+  height: 25px;
+  top: 0%;
+  transition: 250ms ease;
+}
+
+#infobutton {
+  left: 10%;
+  bottom: -10%;
+  background-color: yellowgreen;
+  transition: 250ms ease
+}
+#deletebutton:hover {
+  opacity: 1;
+}
+
+#watchedbutton:hover {
+  opacity: 0.9;
+  scale: 1.03;
+  bottom: -1%;
+}
+#infobutton:hover {
+  opacity: 0.9;
+  scale: 1.03;
+  left: 10%;
+  bottom: -1%;
+}
+
+strong {
+  color: rgb(189, 189, 189);
+}
+
+.indexGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.indexbuttons {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.right {
+  margin-left: auto;
+}
+
+.legend {
+  width: fit-content;
+  opacity: 0.5;
+  padding: 5px;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newbutton {
+  background-color: #076442;
+  border: none;
+  color: white;
+  padding: 5px 8px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.review {
+  height: 100px;
+}
+
+.reviewText {
+  background: gray;
+  width: 300px;
+  height: fit-content;
+  padding: 0;
+  border-radius: 20px;
+  position:relative;
+}
+
+.reviewText p {
+  padding: 50px;
+  width: calc(100% - 100px);
+  height: calc(100% - 100px);
+  z-index: 2;
+}
+
+#quotemark1 {
+  z-index: 1;
+  padding: 0px;
+  margin: 0px;
+  position: absolute;
+  font-size: 40px;
+  top: 10%;
+  width: 40px;
+  height: 40px;
+  left: 10%;
+  opacity: 0.3;
+  font-family: Georgia, 'Times New Roman', Times, serif
+}
+#quotemark2 {
+  z-index: 1;
+  height: 40px;
+  width: 40px;
+  padding: 0px;
+  margin: 0px;
+  position: absolute;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 40px;
+  top: 80%;
+  left: 80%;
+  opacity: 0.3;
 }
