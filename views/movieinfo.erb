@@ -16,7 +16,6 @@
     </div>
     <p>Runtime: <%=@movieinfo['runtime']%> min </p>
     <p>Genre<%=@movieinfo['genres'].split(',').length > 1 ? "s": ""%>: <%= @movieinfo['genres'].split(",").join(", ")%></p>
-    <p>Streaming service<%=(@movieinfo['services'].split(",").length > 1 ? "s": "")%>: <%=@movieinfo['services'].split(",").join(", ")%></p>
     <% if @movieinfo['watched'] == 1%>
         <p>Your score: <%=@movieinfo['score']%></p>
         <p>Your thoughts on this movie: 

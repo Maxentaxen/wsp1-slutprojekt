@@ -37,6 +37,7 @@ body {
   width: 300px;
   padding: 15px;
   border-radius: 25px;
+  height: 500px;
 }
 
 .poster {
@@ -44,10 +45,17 @@ body {
   width: 100%;
 }
 
+#genre {
+  height: 170px;
+  margin-left: 10px;
+  padding: 5px;
+}
+
 .genres {
   border: 1px solid black;
   border-radius: 25px;
   width: 200px;
+  height: 400px;
   padding: 25px;
   margin-top: 0;
   color: white;

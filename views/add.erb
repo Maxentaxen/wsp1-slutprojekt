@@ -12,34 +12,28 @@
         <h2>Add a movie!</h2>
         <form method="POST" action="/add">
             <input  type="text" style="color: black;" class="normal"placeholder="Title" name="name"><br>
-            <h4>Genres</h4>
-            <div class="genres">
-                <label for="genres">Thriller<input type="checkbox" name="genre[]" value=1><br>
-                <label for="genres">Biography<input type="checkbox" name="genre[]" value=2><br>
-                <label for="genres">Comedy<input type="checkbox" name="genre[]" value=3><br>
-                <label for="genres">Romance<input type="checkbox" name="genre[]" value=4><br>
-                <label for="genres">Horror<input type="checkbox" name="genre[]" value=5><br>
-                <label for="genres">Adventure<input type="checkbox" name="genre[]" value=6><br>
-                <label for="genres">Action<input type="checkbox" name="genre[]" value=7><br>
-                <label for="genres">Documentary<input type="checkbox" name="genre[]" value=8><br>
-                <label for="genres">Fantasy<input type="checkbox" name="genre[]" value=9><br>
-                <label for="genres">Drama<input type="checkbox" name="genre[]" value=10><br>
-                <label for="genres">Science Fiction<input type="checkbox" name="genre[]" value=11><br>
-                <label for="genres">Animation<input type="checkbox" name="genre[]" value=12><br>
-                <label for="genres">Musical<input type="checkbox" name="genre[]" value=13><br>
-            </div>
-
-
-
+            <h4 style="margin-left:10px;">Genres</h4>
+            <select multiple="multiple" name="genre" id="genre">
+                <option value=1>Thriller</option>
+                <option value=2>Biography</option>
+                <option value=3>Comedy</option>
+                <option value=4>Romance</option>
+                <option value=5>Horror</option>
+                <option value=6>Adventure</option>
+                <option value=7>Action</option>
+                <option value=8>Documentary</option>
+                <option value=9>Fantasy</option>
+                <option value=10>Drama</option>
+                <option value=11>Science Fiction</option>
+                <option value=12>Animation</option>
+                <option value=13>Musical</option>
+            </select>
             <br>
             <input  type="text" class="normal" placeholder="Year" name="year"><br>
             <input  type="text" class="normal" placeholder="IMDB-score" name="imdb_rating"><br>
             <input  type="text" class="normal" placeholder="Runtime (in minutes)" name="runtime"><br>
-            <h4>Streaming Service(s)</h4>
-            <label for="genres">Netflix<input type="checkbox" name="service[]" value=1><br>
-            <label for="genres">Disney+<input type="checkbox" name="service[]" value=2><br><br>
             <input  type="text" class="normal" placeholder="Poster image link" name="poster">
-            <input name="send" type="submit" value="Submit" style="color:black;"></input>
+            <input name="send" type="submit" value="Submit" style="color:black">
         </form>
     </div>
     </div>

@@ -1,6 +1,6 @@
 require 'sqlite3'
 require_relative '../config'
-
+require 'bcrypt'
 class Seeder
 
   def self.seed!
@@ -18,8 +18,9 @@ class Seeder
     db.execute('DROP TABLE IF EXISTS movies')
     db.execute('DROP TABLE IF EXISTS genres')
     db.execute('DROP TABLE IF EXISTS movies_genres')
-    db.execute('DROP TABLE IF EXISTS services')
-    db.execute('DROP TABLE IF EXISTS movies_services')
+    db.execute('DROP TABLE IF EXISTS user_watched')
+    db.execute('DROP TABLE IF EXISTS users')
+    db.execute('DROP TABLE IF EXISTS friends')
 
 
 
@@ -33,9 +34,6 @@ class Seeder
                 year INTEGER,
                 imdb_rating TEXT,
                 runtime INTEGER,
-                watched BIT,
-                score TEXT,
-                note TEXT, 
                 poster TEXT)')
 
     db.execute('CREATE TABLE genres (
@@ -47,19 +45,27 @@ class Seeder
                 movie_id INTEGER,
                 genre_id INTEGER)')
 
-    db.execute('CREATE TABLE services (
-                service_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                service_name TEXT NOT NULL)')
-    
-    db.execute('CREATE TABLE movies_services (
+    db.execute('CREATE TABLE user_watched (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER,
                 movie_id INTEGER,
-                service_id INTEGER)')
+                score INTEGER,
+                review TEXT)')
+
+    db.execute('CREATE TABLE users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username,
+                password)')
+
+    db.execute('CREATE TABLE friends (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_1,
+                user_2)')
 
   end
 
   def self.populate_tables
-    db.execute('INSERT INTO movies (name, year, imdb_rating, runtime, watched, score, note, poster) VALUES ("Oppenheimer", 2023, "8.3", 180, 0, "","", "https://www.hollywoodreporter.com/wp-content/uploads/2022/07/Oppenheimer-Movie-Poster-Universal-Publicity-EMBED-2022-.jpg?w=1000")') 
+    db.execute('INSERT INTO movies (name, year, imdb_rating, runtime, poster) VALUES ("Oppenheimer", 2023, "8.3", 180, "https://www.hollywoodreporter.com/wp-content/uploads/2022/07/Oppenheimer-Movie-Poster-Universal-Publicity-EMBED-2022-.jpg?w=1000")') 
 
     db.execute('INSERT INTO genres (genre_name) VALUES ("Thriller")')
     db.execute('INSERT INTO genres (genre_name) VALUES ("Biography")')  
@@ -79,9 +85,11 @@ class Seeder
   
     db.execute('INSERT INTO movies_genres (movie_id, genre_id) VALUES (1, 1)') 
     db.execute('INSERT INTO movies_genres (movie_id, genre_id) VALUES (1, 2)') 
-    db.execute('INSERT INTO services (service_name) VALUES ("Netflix")')
-    db.execute('INSERT INTO services (service_name) VALUES ("Disney+")')
-    db.execute('INSERT INTO movies_services (movie_id, service_id) VALUES (1,1)')
+
+    db_password_hashed = BCrypt::Password.create("KebabFredag69")
+
+    db.execute('INSERT INTO users (username, password) VALUES ("Maxentaxen", ?)', db_password_hashed)
+    db.execute('INSERT INTO user_watched (user_id, movie_id) VALUES (1,1)')
   end
 
   private
