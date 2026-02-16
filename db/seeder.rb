@@ -54,8 +54,8 @@ class Seeder
 
     db.execute('CREATE TABLE users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username,
-                password)')
+                username TEXT NOT NULL,
+                password TEXT NOT NULL)')
 
     db.execute('CREATE TABLE friends (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -86,10 +86,9 @@ class Seeder
     db.execute('INSERT INTO movies_genres (movie_id, genre_id) VALUES (1, 1)') 
     db.execute('INSERT INTO movies_genres (movie_id, genre_id) VALUES (1, 2)') 
 
-    db_password_hashed = BCrypt::Password.create("KebabFredag69")
-
-    db.execute('INSERT INTO users (username, password) VALUES ("Maxentaxen", ?)', db_password_hashed)
-    db.execute('INSERT INTO user_watched (user_id, movie_id) VALUES (1,1)')
+    hashed_password = BCrypt::Password.create("Password123").to_s
+    db.execute('INSERT INTO users (username, password) VALUES (?, ?)', ["Maxentaxen", hashed_password])
+    
   end
 
   private

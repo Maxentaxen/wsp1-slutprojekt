@@ -5,6 +5,7 @@ require 'securerandom'
 require 'bcrypt'
 
 
+
 class App < Sinatra::Base
 
     def db
@@ -35,26 +36,29 @@ class App < Sinatra::Base
       request_username = params[:username]
       request_plain_password = params[:password]
 
-      @user = db.execute('SELECT * FROM users WHERE username=?', request_username).first
+      @user = db.execute('SELECT * FROM users WHERE username=?', [request_username]).first
 
       unless @user
-        p "/login : Invalid Username."
         status 401
         redirect 'unauthorized'
       end
 
       db_id = @user['id'].to_i
       db_password_hashed = @user['password'].to_s
-      bcrypt_db_password = BCrypt::Password.new(db_password_hashed)
-      
-      p "Hashed database password: #{db_password_hashed}"
-      p "Bcrypt object: #{bcrypt_db_password}"
-      p "Request password: #{request_plain_password}"
-      if bcrypt_db_password == request_plain_password
-        p 'We are logged in'
 
-        session[:user_id] = db_id
-        redirect 'index'
+      begin
+        bcrypt_db_password = BCrypt::Password.new(db_password_hashed)
+        
+        if bcrypt_db_password == request_plain_password
+          session[:user_id] = db_id
+          redirect 'index'
+        else
+          status 401
+          redirect 'unauthorized'
+        end
+      rescue BCrypt::Errors::InvalidHash => e
+        status 401
+        redirect 'unauthorized'
       end
     end
 
