@@ -5,6 +5,7 @@ require 'rake'
 
 desc "Start Sinatra app with rerun for auto-reload"
 task :dev do
+  sh 'lsof -ti:9292 | xargs kill -9 > /dev/null 2>&1 || true'
   sh 'bundle exec rerun --ignore "*.{erb,js,css}" --force-polling "rackup --host 0.0.0.0"'
 end
 

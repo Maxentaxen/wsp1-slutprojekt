@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FlixMax - Hem</title>
     <link rel="stylesheet" type="text/css" href="/style.css?<%=Time.now.to_i%>">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
-    <div class="indexButtons">
-        <a href="/add" class="newbutton">New Movie</a>
-        <div style="background-color:yellowgreen;" class ="legend right">Info</div>
-        <div style="background-color:blue;" class="legend">Watched?</div>
+
     </div>
-    <h2>Movies to watch</h2>
+    <h2>Your reviews</h2>
     <div class="indexGrid">
+        <div class="movieBox" style="display:flex;align-items:center;justify-content:center;background-color:#888;">
+            <div style="width: 50px; border-radius:50%;height:50px;background-color:#666;display:inherit;align-items:center;justify-content:center;">
+                <a href="/add"><span class="material-symbols-outlined">add</span></a>
+            </div>
+        </div>
         <% @movies.each do | movie | %>
         <div class="movieBox" style="background-image: url(<%=movie['poster']%>); 
                                     background-repeat: no-repeat; 

@@ -110,7 +110,6 @@ a {
   background-color: yellowgreen;
   transition: 250ms ease
 }
-
 #deletebutton:hover {
   opacity: 1;
 }
