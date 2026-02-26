@@ -1,6 +1,8 @@
 require_relative 'config'
 require 'rake'
 
+
+
 desc "Start Sinatra app with rerun for auto-reload"
 task :dev do
   sh 'bundle exec rerun --ignore "*.{erb,js,css}" --force-polling "rackup --host 0.0.0.0"'

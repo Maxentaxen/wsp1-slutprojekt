@@ -13,25 +13,27 @@
         <form method="POST" action="/add">
             <input  type="text" style="color: black;" class="normal"placeholder="Title" name="name"><br>
             <h4 style="margin-left:10px;">Genres</h4>
-            <select multiple="multiple" name="genre" id="genre">
-                <option value=1>Thriller</option>
-                <option value=2>Biography</option>
-                <option value=3>Comedy</option>
-                <option value=4>Romance</option>
-                <option value=5>Horror</option>
-                <option value=6>Adventure</option>
-                <option value=7>Action</option>
-                <option value=8>Documentary</option>
-                <option value=9>Fantasy</option>
-                <option value=10>Drama</option>
-                <option value=11>Science Fiction</option>
-                <option value=12>Animation</option>
-                <option value=13>Musical</option>
+            <select multiple="multiple" name="genre[]" id="genre">
+                <option value=1 name="genre[]">Thriller</option>
+                <option value=2 name="genre[]">Biography</option>
+                <option value=3 name="genre[]">Comedy</option>
+                <option value=4 name="genre[]">Romance</option>
+                <option value=5 name="genre[]">Horror</option>
+                <option value=6 name="genre[]">Adventure</option>
+                <option value=7 name="genre[]">Action</option>
+                <option value=8 name="genre[]">Documentary</option>
+                <option value=9 name="genre[]">Fantasy</option>
+                <option value=10 name="genre[]">Drama</option>
+                <option value=11 name="genre[]">Science Fiction</option>
+                <option value=12 name="genre[]">Animation</option>
+                <option value=13 name="genre[]">Musical</option>
             </select>
             <br>
             <input  type="text" class="normal" placeholder="Year" name="year"><br>
             <input  type="text" class="normal" placeholder="IMDB-score" name="imdb_rating"><br>
             <input  type="text" class="normal" placeholder="Runtime (in minutes)" name="runtime"><br>
+            <input type="text" class="normal" name = "score" placeholder="Your score out of 10">
+            <textarea class="review normal" name="note" placeholder="Your thoughts"></textarea>
             <input  type="text" class="normal" placeholder="Poster image link" name="poster">
             <input name="send" type="submit" value="Submit" style="color:black">
         </form>

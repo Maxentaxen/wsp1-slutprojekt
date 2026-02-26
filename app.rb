@@ -23,14 +23,17 @@ class App < Sinatra::Base
   
   get '/' do
     if session[:user_id]
-      @movies = db.execute('SELECT name, poster, id FROM movies ')
-      erb(:"index") 
+      redirect 'index' 
     else
-      erb(:"login")
+      redirect 'login'
     end
   end
-    
-    
+
+  get '/login' do
+    erb(:login) 
+  end
+
+  
   post '/login' do
     request_username = params[:username]
     request_plain_password = params[:password]
@@ -58,14 +61,23 @@ class App < Sinatra::Base
   end
 
   get '/index' do 
+    p session[:user_id]
     @movie_ids = db.execute('SELECT movie_id FROM user_watched WHERE user_id = ?', session[:user_id]).first
-    p session
-    p @movie_ids.values
-    @movies = db.execute('SELECT name, poster, id FROM movies WHERE id IN ?', @movie_ids.values)
-    erb(:'index')
+    
+    if !@movie_ids.nil?
+      placeholders = (['?'] * @movie_ids.length).join(',')
+      sql = "SELECT name, poster, id FROM movies WHERE id IN (#{placeholders})"
+      @movies = db.execute(sql, @movie_ids.values)
+      ap @movies
+      @users = db.execute('SELECT username FROM users where id != ?', session[:user_id])
+      erb(:'index')
+    else
+      erb(:'add')
+    end
   end
   
   get '/add' do
+
     erb(:"add")
   end
 
@@ -89,13 +101,23 @@ class App < Sinatra::Base
       db.execute('INSERT INTO movies (name, year, imdb_rating, runtime, poster) 
           VALUES (?, ?, ?, ?, ?)', movieParams)
       id = db.execute("SELECT id FROM movies where name=?", params['name']).first.values
-      
-      params['genres'].each do | genreName |
+  
+      params['genre'].each do | genreName |
         id_database_params = [id, genreName.to_i]
         p id_database_params
         db.execute("INSERT INTO movies_genres (movie_id, genre_id) VALUES (?,?)", id_database_params)
       end
     end
+    userInfo = db.execute('SELECT movie_id FROM user_watched WHERE user_id = ?', session[:user_id]).first
+
+    if userInfo
+      if !userInfo.values.include?(id)
+        db.execute('INSERT INTO user_watched (user_id, movie_id, score, review) VALUES (?, ?, ?, ?)', [session[:user_id], id, params['score'], params['note']])
+      end
+    else
+        db.execute('INSERT INTO user_watched (user_id, movie_id, score, review) VALUES (?, ?, ?, ?)', [session[:user_id], id, params['score'], params['note']])
+    end
+    p userInfo
     redirect("/")
   end
 

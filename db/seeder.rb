@@ -89,6 +89,9 @@ class Seeder
     hashed_password = BCrypt::Password.create("Password123").to_s
     db.execute('INSERT INTO users (username, password) VALUES (?, ?)', ["Maxentaxen", hashed_password])
 
+    anton_lösnord = BCrypt::Password.create("Duvermongo").to_s
+    db.execute('INSERT INTO users (username, password) VALUES (?, ?)', ["Duvermongo", anton_lösnord])
+
     db.execute('INSERT INTO user_watched (user_id, movie_id, score, review) VALUES (1, 1, 10, "Bleh")')
     
   end

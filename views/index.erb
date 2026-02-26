@@ -15,14 +15,11 @@
     </div>
     <h2>Movies to watch</h2>
     <div class="indexGrid">
-        <% @movies.each do |movie| %>
+        <% @movies.each do | movie | %>
         <div class="movieBox" style="background-image: url(<%=movie['poster']%>); 
                                     background-repeat: no-repeat; 
                                     background-size: 100% 100%;">
                 <a href="/show/<%=movie['id']%>" id=""><button id="infobutton"></button></a>
-                <form action="/review/<%=movie['id']%>" method="GET">
-                    <button id="watchedbutton" type="submit" name="id" value="<%=movie['id']%>"></button>
-                </form>
                 <form action="/delete" method="POST">
                     <button id="deletebutton" type="submit" name="id" value="<%=movie['id']%>"><span class="material-symbols-outlined">close</span></button>
                 </form>
@@ -32,3 +29,5 @@
     <hr>
 </body>
 </html>
+
+

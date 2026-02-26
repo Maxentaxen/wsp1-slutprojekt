@@ -37,7 +37,7 @@ body {
   width: 300px;
   padding: 15px;
   border-radius: 25px;
-  height: 500px;
+  height: auto;
 }
 
 .poster {
@@ -104,11 +104,13 @@ a {
 }
 
 #infobutton {
-  left: 10%;
+  left: calc(50% - 20px);
+  width: 40px;
   bottom: -10%;
   background-color: yellowgreen;
   transition: 250ms ease
 }
+
 #deletebutton:hover {
   opacity: 1;
 }
@@ -121,8 +123,8 @@ a {
 #infobutton:hover {
   opacity: 0.9;
   scale: 1.03;
-  left: 10%;
-  bottom: -1%;
+  left: calc(50% - 20px);
+  bottom: -5%;
 }
 
 strong {
