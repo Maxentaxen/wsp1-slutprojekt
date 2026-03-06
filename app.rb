@@ -3,7 +3,9 @@ require "awesome_print"
 require 'digest'
 require 'securerandom'
 require 'bcrypt'
-
+require_relative 'models/base_model'
+require_relative 'models/movies.rb'
+require_relative 'models/users.rb'
 
 class App < Sinatra::Base
   
@@ -61,69 +63,54 @@ class App < Sinatra::Base
   end
 
   get '/index' do 
-    p session[:user_id]
-    @movie_ids = db.execute('SELECT movie_id FROM user_watched WHERE user_id = ?', session[:user_id]).map(&:values).flatten
-
-    if !@movie_ids.nil?
-      placeholders = (['?'] * @movie_ids.length).join(',')
-      sql = "SELECT name, poster, id FROM movies WHERE id IN (#{placeholders})"
-      @movies = db.execute(sql, @movie_ids)
-      ap @movies
-      @users = db.execute('SELECT username FROM users where id != ?', session[:user_id])
-      erb(:'index')
+    @movies = Movie.get_from_user(session[:user_id])
+    @users = Users.get_other_users(session[:user_id])
+    p @users
+    if @movies 
+      erb(:index)
     else
-      erb(:'add')
+      erb(:add)
     end
   end
   
   get '/add' do
-
     erb(:"add")
   end
 
   get '/show/:id' do |id|
-    @movieinfo = db.execute('SELECT name, year, imdb_rating, runtime, GROUP_CONCAT(DISTINCT genre_name) as genres, poster, movies.id FROM movies
-                            INNER JOIN movies_genres 
-                              ON movies.id = movies_genres.movie_id
-                            INNER JOIN genres
-                              ON movies_genres.genre_id = genres.genre_id 
-                            WHERE movies.id = ?
-                          GROUP BY movies.id ', id).first
+    @movieinfo = Movie.getInfo(id)
+    @review = Movie.get_review(id, session[:user_id]).first
+    ap @review
     erb(:"movieinfo")
   end
 
   post '/add' do
-    ap params
-    movienames = db.execute('SELECT name FROM movies').map(&:values).flatten
-    ap movienames
-    movieParams = [params['name'], params['year'].to_i, params['imdb_rating'], params['runtime'], params['poster']]
-    if !movienames.include?(params['name']) 
-      db.execute('INSERT INTO movies (name, year, imdb_rating, runtime, poster) 
-          VALUES (?, ?, ?, ?, ?)', movieParams)
-      id = db.execute("SELECT id FROM movies where name=?", params['name']).first.values
-  
-      params['genre'].each do | genreName |
-        id_database_params = [id, genreName.to_i]
-        db.execute("INSERT INTO movies_genres (movie_id, genre_id) VALUES (?,?)", id_database_params)
-      end
-    end
-    userInfo = db.execute('SELECT movie_id FROM user_watched WHERE user_id = ?', session[:user_id]).map(&:values).flatten
-    
-    
-    if userInfo
-      if !userInfo.include?(id)
-        db.execute('INSERT INTO user_watched (user_id, movie_id, score, review) VALUES (?, ?, ?, ?)', [session[:user_id], id, params['score'], params['note']])
-      end
-    else
-    end
-    p userInfo
+    Movie.add(params, session[:user_id])
     redirect("/")
   end
 
   post '/delete' do
-    id = params['id']
-    db.execute("DELETE FROM movies WHERE id = ?", id)
-    db.execute("DELETE FROM movies_genres WHERE movie_id = ?", id)
+    Movie.destroy(params['id'])
     redirect("/")
+  end
+
+  get '/add-friend' do
+
+  end
+
+
+  get '/sign-up' do
+    erb(:signup)
+  end
+
+  post '/signup' do
+    ap params
+    result = Users.add(params['username'], params['password'], params['repeated_password'])
+    if !result
+      @incorrect = true
+      erb(:signup)
+    else
+      redirect('/')
+    end
   end
 end

@@ -92,6 +92,9 @@ class Seeder
     anton_lösnord = BCrypt::Password.create("Duvermongo").to_s
     db.execute('INSERT INTO users (username, password) VALUES (?, ?)', ["Duvermongo", anton_lösnord])
 
+    hilda_lösenord = BCrypt::Password.create('H1mb2rg3r4').to_s
+    db.execute('INSERT INTO users (username, password) VALUES (?, ?)', ["Alfawolfshrexylover69", hilda_lösenord])
+
     db.execute('INSERT INTO user_watched (user_id, movie_id, score, review) VALUES (1, 1, 10, "Bleh")')
     
   end

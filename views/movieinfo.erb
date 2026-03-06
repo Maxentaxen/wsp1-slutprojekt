@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> <%=@movieinfo['name']%> - FlixMax</title>
     <link rel="stylesheet" type="text/css" href="/style.css?<%=Time.now.to_i%>">
-
 </head>
 <body >
     <h2><%=@movieinfo['name']%></h2>
@@ -16,24 +15,18 @@
     </div>
     <p>Runtime: <%=@movieinfo['runtime']%> min </p>
     <p>Genre<%=@movieinfo['genres'].split(',').length > 1 ? "s": ""%>: <%= @movieinfo['genres'].split(",").join(", ")%></p>
-    <% if @movieinfo['watched'] == 1%>
-        <p>Your score: <%=@movieinfo['score']%></p>
-        <p>Your thoughts on this movie: 
-            <div class="reviewText">
-                <p id="quotemark1">“</p>
-                <p style="font-family: 'Times new roman';"><%=@movieinfo['note']%></p>
-                <p id ="quotemark2">”</p>
-                </div>
-            </p>
-
-    <% end%>
     <img src="<%=@movieinfo['poster']%>" style="width: 300px;
                                                 height:450px; 
                                                 position: absolute; 
                                                 right: 5%; 
                                                 top: 12%;
                                                 border-radius: 25px;">
-    
+    <p>Your score: <%=@review['score']%></p>
+    <div class="reviewtext">
+        <div id="quotemark1">“</div>
+        <p><%=@review['review']%></p>
+        <div id="quotemark2">”</div> 
+    </div>
 </body>
 </html>
 

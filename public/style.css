@@ -190,6 +190,11 @@ strong {
   z-index: 2;
 }
 
+a:visited {
+  color: #1A73E8;
+  text-decoration: underline;
+}
+
 #quotemark1 {
   z-index: 1;
   padding: 0px;

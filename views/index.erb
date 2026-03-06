@@ -29,6 +29,15 @@
         <%end%>
     </div>
     <hr>
+    <h2>Other users</h2>
+    <div class="users" style="display:flex">
+        <% @users.each do |user|%>
+            <div class="movieBox" style="background-image: url(https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg);background-repeat:no-repeat;background-size:100% 100%; ">
+                <a href="/users/show/:<%=user['id']%>" id="" style="text-wrap:wrap"><%=user['username']%></a>
+            </div>
+        <%end%>
+    </div>
+    <hr>
 </body>
 </html>
 

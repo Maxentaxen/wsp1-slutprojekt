@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/style.css?<%=Time.now.to_i%>">
+
 </head>
 <body>
     <form method="POST" action="/login" style="display: flex;flex-direction:column;gap:10px;width:200px;">
         <input type="text" placeholder="Username" name="username" required><br>
         <input type="password" placeholder="Password" name="password" required><br>
+        <a href="/sign-up">Sign up</a>
         <input type="submit" name="send" value="Submit">
 
     </form>
