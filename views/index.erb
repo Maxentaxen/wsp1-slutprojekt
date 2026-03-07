@@ -10,11 +10,11 @@
 <body>
 
     </div>
-    <h2>Your reviews</h2>
+    <div class="normal"><h2>Your reviews</h2></div>
     <div class="indexGrid">
         <div class="movieBox" style="display:flex;align-items:center;justify-content:center;background-color:#888;">
-            <div style="width: 50px; border-radius:50%;height:50px;background-color:#666;display:inherit;align-items:center;justify-content:center;">
-                <a href="/add"><span class="material-symbols-outlined">add</span></a>
+            <div style="width: 50px; border-radius:50%;height:50px;background-color:#666;display:flex;align-items:center;justify-content:center;">
+                <a href="/add" style="display:flex;justify-content:center;align-items:center;"><span class="material-symbols-outlined" style="color:white;">add</span></a>
             </div>
         </div>
         <% @movies.each do | movie | %>
@@ -29,7 +29,7 @@
         <%end%>
     </div>
     <hr>
-    <h2>Other users</h2>
+    <div class="normal"><h2>Other users</h2></div>
     <div class="users" style="display:flex">
         <% @users.each do |user|%>
             <div class="movieBox" style="background-image: url(https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg);background-repeat:no-repeat;background-size:100% 100%; ">

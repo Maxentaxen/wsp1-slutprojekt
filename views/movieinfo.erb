@@ -6,8 +6,9 @@
     <title> <%=@movieinfo['name']%> - FlixMax</title>
     <link rel="stylesheet" type="text/css" href="/style.css?<%=Time.now.to_i%>">
 </head>
-<body >
+<body>
     <h2><%=@movieinfo['name']%></h2>
+    <div style="background-color: var(--c3); width: fit-content; padding: 20px; border-radius: 20px;">
     <p>Release year: <%=@movieinfo['year']%> </p>
     <div class="imdb" style="display: flex; height: 18px; flex-direction: row;">
         <img src="/img/imdblogo.png" style="">
@@ -15,17 +16,18 @@
     </div>
     <p>Runtime: <%=@movieinfo['runtime']%> min </p>
     <p>Genre<%=@movieinfo['genres'].split(',').length > 1 ? "s": ""%>: <%= @movieinfo['genres'].split(",").join(", ")%></p>
-    <img src="<%=@movieinfo['poster']%>" style="width: 300px;
-                                                height:450px; 
+    <img src="<%=@movieinfo['poster']%>" style="width: 250px;
+                                                height: 350px; 
                                                 position: absolute; 
                                                 right: 5%; 
-                                                top: 12%;
+                                                top: 20%;
                                                 border-radius: 25px;">
     <p>Your score: <%=@review['score']%></p>
-    <div class="reviewtext">
+    <div class="reviewText">
         <div id="quotemark1">“</div>
         <p><%=@review['review']%></p>
         <div id="quotemark2">”</div> 
+    </div>
     </div>
 </body>
 </html>
