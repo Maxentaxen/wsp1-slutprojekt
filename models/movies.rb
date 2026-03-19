@@ -1,5 +1,5 @@
 require_relative 'base_model'
-
+require 'ap'
 
 class Movie < BaseModel
 
@@ -61,19 +61,39 @@ class Movie < BaseModel
   end
 
 
-  def self.destroy(id)
-    db.execute('DELETE FROM movies WHERE id = ?', id)
+  def self.destroy(user, movie)
+    db.execute('DELETE FROM user_watched WHERE movie_id = ? AND user_id = ?', [movie, user])
     db.execute('DELETE FROM movies_genres WHERE movie_id = ?', id)
+  end
+
+  def self.get_reviews_from_user(id)
+
+    reviews = db.execute('SELECT movie_id, score, review FROM user_watched WHERE user_id = ?', id)
+    ap reviews
+    movie_ids = []
+    reviews.each do | item |
+      movie_ids << item['movie_id']
+    end
+    placeholders = (['?'] * reviews.length).join(',')
+    sql = "SELECT name FROM movies WHERE id IN (#{placeholders})"
+    movieNames = db.execute(sql, movie_ids)
+    output = []
+    i = 0
+    while i < reviews.length
+      output << {
+        'name' => movieNames[i].values,
+        'review' => reviews[i]['review'],
+        'score' => reviews[i]['score']
+      }
+      i += 1
+    end
+    ap output
+    output
   end
 end
 
 
 # get all from user id
 
-# add
-
-# show
-
 # update
 
-# destroy

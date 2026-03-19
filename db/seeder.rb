@@ -55,7 +55,8 @@ class Seeder
     db.execute('CREATE TABLE users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username TEXT NOT NULL,
-                password TEXT NOT NULL)')
+                password TEXT NOT NULL,
+                godmode BOOL)')
 
     db.execute('CREATE TABLE friends (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -97,6 +98,7 @@ class Seeder
 
     db.execute('INSERT INTO user_watched (user_id, movie_id, score, review) VALUES (1, 1, 10, "Bleh")')
     
+    db.execute('INSERT INTO friends (user_1, user_2) VALUES (1,2)')
   end
 
   private

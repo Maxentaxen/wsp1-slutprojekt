@@ -6,11 +6,13 @@ class Users < BaseModel
     db.execute('SELECT id, username FROM users WHERE id != ?', id)
   end
 
+  def self.get_user(id)
+    db.execute('SELECT * FROM users WHERE id = ?', id)
+  end
   def self.add(username, password, repeated_password)
     if password != repeated_password
       false
     else
-      p password
       hashed_password = BCrypt::Password.create(password).to_s
       db.execute('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashed_password])
     end

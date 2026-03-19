@@ -6,6 +6,7 @@ require 'bcrypt'
 require_relative 'models/base_model'
 require_relative 'models/movies.rb'
 require_relative 'models/users.rb'
+require_relative 'models/friends.rb'
 
 class App < Sinatra::Base
   
@@ -32,6 +33,7 @@ class App < Sinatra::Base
   end
 
   get '/login' do
+    @showprofile = false
     erb(:login) 
   end
 
@@ -55,7 +57,6 @@ class App < Sinatra::Base
     
     if bcrypt_db_password == request_plain_password
       session[:user_id] = db_id
-      p session
       redirect 'index'
     else
       erb(:'login')
@@ -63,10 +64,11 @@ class App < Sinatra::Base
   end
 
   get '/index' do 
+    @showprofile = true
     @movies = Movie.get_from_user(session[:user_id])
     @users = Users.get_other_users(session[:user_id])
-    p @users
-    if @movies 
+    @user = session[:user_id]
+    if @movies.length > 0
       erb(:index)
     else
       erb(:add)
@@ -74,13 +76,16 @@ class App < Sinatra::Base
   end
   
   get '/add' do
+    @user = session[:user_id]
+    @showprofile = true
     erb(:"add")
   end
 
   get '/show/:id' do |id|
+    @user = session[:user_id]
+    @showprofile = true
     @movieinfo = Movie.getInfo(id)
     @review = Movie.get_review(id, session[:user_id]).first
-    ap @review
     erb(:"movieinfo")
   end
 
@@ -94,8 +99,11 @@ class App < Sinatra::Base
     redirect("/")
   end
 
-  get '/add-friend' do
-
+  post '/addfriend/:id' do | id |
+    Friends.add_friends(session[:user_id], id.to_i)
+    
+    redirect "profile/#{id}"
+    
   end
 
 
@@ -104,7 +112,6 @@ class App < Sinatra::Base
   end
 
   post '/signup' do
-    ap params
     result = Users.add(params['username'], params['password'], params['repeated_password'])
     if !result
       @incorrect = true
@@ -112,5 +119,19 @@ class App < Sinatra::Base
     else
       redirect('/')
     end
+  end
+
+  get '/logout' do
+    session.clear
+    redirect('/login')
+  end
+
+  get '/profile/:id' do |id| 
+    @showprofile = true
+    @profile = Users.get_user(id).first
+    reviews = Movie.get_reviews_from_user(id)
+    @user = session
+    @friends = Friends.check_friendship_status(session[:user_id], id.to_i)
+    erb(:profile)
   end
 end

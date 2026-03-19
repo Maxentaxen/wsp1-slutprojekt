@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1><%=@profile['username']%></h1>
+
+    <% if @profile['id'] != @user['user_id'] %>
+        <hr>
+        <% if !@friends %>
+        <div class="addfriend" style="
+        color: white;
+        border-radius: 10px;
+        height: fit-content;
+        width: fit-content;
+        padding: 10px;
+        background-color: lime;">
+    
+        <form action="/addfriend/<%=@profile['id']%>" method="POST">
+            <input type="submit" value="Add friend" style="background: none;border:none;"></form>
+        </div>
+        <% end %>
+        <% if @friends %>
+        <div class="moviesSeen">
+            <div class="reviewbox">
+                
+            </div>
+        </div>
+        <% end%>
+        <hr>
+    <% else %>
+        <hr>
+        <p>This is your own profile. If you want to see your own reviews, go back to the home page</p>
+        <hr>
+    <% end %>
+    <div class="friends">
+
+    </div>
+</body>
+</html>
