@@ -3,6 +3,7 @@ require "awesome_print"
 require 'digest'
 require 'securerandom'
 require 'bcrypt'
+
 require_relative 'models/base_model'
 require_relative 'models/movies.rb'
 require_relative 'models/users.rb'
@@ -57,6 +58,7 @@ class App < Sinatra::Base
     
     if bcrypt_db_password == request_plain_password
       session[:user_id] = db_id
+      ap session
       redirect 'index'
     else
       erb(:'login')
@@ -103,7 +105,6 @@ class App < Sinatra::Base
     Friends.add_friends(session[:user_id], id.to_i)
     
     redirect "profile/#{id}"
-    
   end
 
 
@@ -129,9 +130,17 @@ class App < Sinatra::Base
   get '/profile/:id' do |id| 
     @showprofile = true
     @profile = Users.get_user(id).first
-    reviews = Movie.get_reviews_from_user(id)
-    @user = session
+    @reviews = Movie.get_reviews_from_user(id)
+    ap @reviews 
+    @user = session['user_id']
     @friends = Friends.check_friendship_status(session[:user_id], id.to_i)
+    p @friends
     erb(:profile)
   end
+
+  post '/breakup/:id' do | id |
+    Friends.breakup(session[:user_id], id.to_i)
+    redirect '/'
+  end
+
 end

@@ -6,11 +6,12 @@
     <title>Document</title>
 </head>
 <body>
-    <h1><%=@profile['username']%></h1>
 
-    <% if @profile['id'] != @user['user_id'] %>
+    <h1><%=@profile['username']%><%="'s reviews"*@friends%></h1>
+
+    <% if @profile['id'] != @user %>
         <hr>
-        <% if !@friends %>
+        <% if @friends==0 %>
         <div class="addfriend" style="
         color: white;
         border-radius: 10px;
@@ -23,11 +24,39 @@
             <input type="submit" value="Add friend" style="background: none;border:none;"></form>
         </div>
         <% end %>
-        <% if @friends %>
+        <% if @friends == 1%>
+        <div class="addfriend" style="
+        color: white;
+        border-radius: 10px;
+        height: fit-content;
+        width: fit-content;
+        padding: 10px;
+        background-color: red;">
+    
+        <form action="/breakup/<%=@profile['id']%>" method="POST">
+            <input type="submit" value="Remove friend" style="background: none;border:none;"></form>
+        </div>
         <div class="moviesSeen">
-            <div class="reviewbox">
-                
+            <% @reviews.each do | review | %>
+            <div class="reviewbox" style="
+            width: 80%;
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 20% 20% 20% 40%;
+            grid-template-areas:
+            'nm im'
+            'rv im'
+            'th im'
+            'te im';
+            height:auto;">
+                <h2><%=review['name']%></h2>
+                <p style="width:30%;"><%=@profile['username']%> gave this movie <%=review['score']%> out of 10</p>
+                <p>Their thoughts:</p>
+                <p><%=review['review']%></p>
+                <img src="<%=review['poster']%>" style=
+                "width:150px;grid-area:im">
             </div>
+            <% end %>
         </div>
         <% end%>
         <hr>

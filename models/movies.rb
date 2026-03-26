@@ -67,9 +67,7 @@ class Movie < BaseModel
   end
 
   def self.get_reviews_from_user(id)
-
     reviews = db.execute('SELECT movie_id, score, review FROM user_watched WHERE user_id = ?', id)
-    ap reviews
     movie_ids = []
     reviews.each do | item |
       movie_ids << item['movie_id']
@@ -77,17 +75,18 @@ class Movie < BaseModel
     placeholders = (['?'] * reviews.length).join(',')
     sql = "SELECT name FROM movies WHERE id IN (#{placeholders})"
     movieNames = db.execute(sql, movie_ids)
+    moviePosters = db.execute("SELECT poster FROM movies WHERE id IN (#{placeholders})", movie_ids)
     output = []
     i = 0
     while i < reviews.length
       output << {
-        'name' => movieNames[i].values,
+        'name' => movieNames[i].values.first,
         'review' => reviews[i]['review'],
-        'score' => reviews[i]['score']
+        'score' => reviews[i]['score'],
+        'poster' => moviePosters[i].values.first
       }
       i += 1
     end
-    ap output
     output
   end
 end
