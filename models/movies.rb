@@ -1,12 +1,24 @@
 require_relative 'base_model'
 require 'ap'
 
-class Movie < BaseModel
+class Movie  BaseModel
 
+  #
+  # Listar all info om alla filmer
+  #
+  # @return [array] Array full med all data från movies-tabellen
+  #
   def self.all()
     db.execute('SELECT * FROM movies')
   end
 
+  #
+  # Hämtar alla filmer som en viss användare har recenscerat
+  #
+  # @param [int] id Användarens id
+  #
+  # @return [array] Array med namn, id och posterlänk för alla filmer som användaren har recenscerat
+  #
   def self.get_from_user(id)
     @movie_ids = db.execute('SELECT movie_id FROM user_watched WHERE user_id = ?', id).map(&:values).flatten
 
@@ -20,6 +32,15 @@ class Movie < BaseModel
     end
   end
 
+  
+  #
+  # Lägger till en ny film i databasen
+  #
+  # @param [hash] params Informationen för filmen som man vill slänga in
+  # @param [int] user_id Användaren som lägger in det (för att lägga in i user_watched)
+  #
+  # @return [none] description
+  #
   def self.add(params, user_id)
 
     movienames = db.execute('SELECT name FROM movies').map(&:values).flatten
@@ -45,6 +66,13 @@ class Movie < BaseModel
 
   end
 
+  #
+  # Hämtar all information om en viss film
+  #
+  # @param [int] movie_id ID för filmen man vill hämta information om
+  #
+  # @return [hash] Allting om filmen
+  #
   def self.getInfo(movie_id)
     db.execute('SELECT name, year, imdb_rating, runtime, GROUP_CONCAT(DISTINCT genre_name) as genres, poster, movies.id FROM movies
                             INNER JOIN movies_genres 
@@ -56,21 +84,44 @@ class Movie < BaseModel
     
   end
 
+  #
+  # Description
+  #
+  # @param [Type] movie_id description
+  # @param [Type] user_id description
+  #
+  # @return [Type] description
+  #
   def self.get_review(movie_id, user_id)
     db.execute('SELECT score, review FROM user_watched WHERE user_id = ? AND movie_id = ?', [user_id, movie_id])
   end
 
 
-  def self.destroy(user, movie)
+  #
+  # Description
+  #
+  # @param [Type] user description
+  # @param [Type] movie description
+  #
+  # @return [Type] description
+  #
+  def self.destroy(user, movie) 
     db.execute('DELETE FROM user_watched WHERE movie_id = ? AND user_id = ?', [movie, user])
     db.execute('DELETE FROM movies_genres WHERE movie_id = ?', id)
   end
 
+  #
+  # Description
+  #
+  # @param [Type] id description
+  #
+  # @return [Type] description
+  #
   def self.get_reviews_from_user(id)
     reviews = db.execute('SELECT movie_id, score, review FROM user_watched WHERE user_id = ?', id)
     movie_ids = []
     reviews.each do | item |
-      movie_ids << item['movie_id']
+      movie_ids  item['movie_id']
     end
     placeholders = (['?'] * reviews.length).join(',')
     sql = "SELECT name FROM movies WHERE id IN (#{placeholders})"
@@ -78,12 +129,12 @@ class Movie < BaseModel
     moviePosters = db.execute("SELECT poster FROM movies WHERE id IN (#{placeholders})", movie_ids)
     output = []
     i = 0
-    while i < reviews.length
+    while i  reviews.length
       output << {
-        'name' => movieNames[i].values.first,
-        'review' => reviews[i]['review'],
-        'score' => reviews[i]['score'],
-        'poster' => moviePosters[i].values.first
+        'name' = movieNames[i].values.first,
+        'review' = reviews[i]['review'],
+        'score' = reviews[i]['score'],
+        'poster' = moviePosters[i].values.first
       }
       i += 1
     end
@@ -95,4 +146,3 @@ end
 # get all from user id
 
 # update
-

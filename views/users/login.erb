@@ -8,11 +8,16 @@
 
 </head>
 <body>
-    <form method="POST" action="/login" style="display: flex;flex-direction:column;gap:10px;width:200px;">
+    <form method="POST" action="/users/login" style="display: flex;flex-direction:column;gap:10px;width:200px;">
         <input type="text" style="color:white;" placeholder="Username" name="username" class="normal" required><br>
         <input type="password" placeholder="Password" style="color:white;"name="password" class="normal" required><br>
-        <a href="/sign-up">Sign up</a>
+        <a href="/users/sign-up">Sign up</a>
+        <% if @failed%>
+        <p style="Color:red">Too many login attempts :/</p>
+        <% else %>
         <input type="submit" name="send" class="normal" value="Log in">
+        <%end%>
+        
 
     </form>
 </body>

@@ -20,7 +20,7 @@
         padding: 10px;
         background-color: lime;">
     
-        <form action="/addfriend/<%=@profile['id']%>" method="POST">
+        <form action="/users/addfriend/<%=@profile['id']%>" method="POST">
             <input type="submit" value="Add friend" style="background: none;border:none;"></form>
         </div>
         <% end %>
@@ -33,7 +33,7 @@
         padding: 10px;
         background-color: red;">
     
-        <form action="/breakup/<%=@profile['id']%>" method="POST">
+        <form action="/users/breakup/<%=@profile['id']%>" method="POST">
             <input type="submit" value="Remove friend" style="background: none;border:none;"></form>
         </div>
         <div class="moviesSeen">

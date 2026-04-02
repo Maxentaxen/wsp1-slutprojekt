@@ -14,15 +14,15 @@
     <div class="indexGrid">
         <div class="movieBox" style="display:flex;align-items:center;justify-content:center;background-color:#888;">
             <div style="width: 50px; border-radius:50%;height:50px;background-color:#666;display:flex;align-items:center;justify-content:center;">
-                <a href="/add" style="display:flex;justify-content:center;align-items:center;"><span class="material-symbols-outlined" style="color:white;">add</span></a>
+                <a href="/movies/add" style="display:flex;justify-content:center;align-items:center;"><span class="material-symbols-outlined" style="color:white;">add</span></a>
             </div>
         </div>
         <% @movies.each do | movie | %>
         <div class="movieBox" style="background-image: url(<%=movie['poster']%>); 
                                     background-repeat: no-repeat; 
                                     background-size: 100% 100%;">
-                <a href="/show/<%=movie['id']%>" id=""><button id="infobutton"></button></a>
-                <form action="/delete" method="POST">
+                <a href="/movies/show/<%=movie['id']%>" id=""><button id="infobutton"></button></a>
+                <form action="/movies/delete" method="POST">
                     <button id="deletebutton" type="submit" name="id" value="<%=movie['id']%>"><span class="material-symbols-outlined">close</span></button>
                 </form>
         </div>
@@ -33,7 +33,7 @@
     <div class="users" style="display:flex">
         <% @users.each do |user|%>
             <div class="movieBox" style="background-image: url(https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg);background-repeat:no-repeat;background-size:100% 100%; ">
-                <a href="/profile/<%=user['id']%>" id="" style="text-wrap:wrap;text-decoration:none;color:black"><%=user['username']%></a>
+                <a href="/users/profile/<%=user['id']%>" id="" style="text-wrap:wrap;text-decoration:none;color:black"><%=user['username']%></a>
             </div>
         <%end%>
     </div>
