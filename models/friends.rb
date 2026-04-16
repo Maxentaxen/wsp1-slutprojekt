@@ -1,4 +1,6 @@
-class Friends  BaseModel
+require_relative 'base_model.rb'
+
+class Friends < BaseModel
 
   #
   # Kollar vänskapsstatus mellan två användare

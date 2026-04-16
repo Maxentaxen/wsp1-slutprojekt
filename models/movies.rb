@@ -1,7 +1,10 @@
 require_relative 'base_model'
 require 'ap'
 
-class Movie  BaseModel
+class Movie < BaseModel
+
+
+
 
   #
   # Listar all info om alla filmer
@@ -85,12 +88,12 @@ class Movie  BaseModel
   end
 
   #
-  # Description
+  # Hämtar en recension utifrån film-id och användare
   #
-  # @param [Type] movie_id description
-  # @param [Type] user_id description
+  # @param [int] movie_id filmens ID
+  # @param [int] user_id användarens ID
   #
-  # @return [Type] description
+  # @return [hash] informationen om användarens recension på filmen 
   #
   def self.get_review(movie_id, user_id)
     db.execute('SELECT score, review FROM user_watched WHERE user_id = ? AND movie_id = ?', [user_id, movie_id])
@@ -98,24 +101,23 @@ class Movie  BaseModel
 
 
   #
-  # Description
+  # Tar bort en recension
   #
-  # @param [Type] user description
-  # @param [Type] movie description
+  # @param [int] user Användarens ID
+  # @param [int] movie Filmens ID
   #
-  # @return [Type] description
+  # @return [none] 
   #
   def self.destroy(user, movie) 
     db.execute('DELETE FROM user_watched WHERE movie_id = ? AND user_id = ?', [movie, user])
-    db.execute('DELETE FROM movies_genres WHERE movie_id = ?', id)
   end
 
   #
-  # Description
+  # Hämtar alla recensioner från en användare
   #
-  # @param [Type] id description
+  # @param [int] id användarens ID
   #
-  # @return [Type] description
+  # @return [array] En array med alla användarens recensioner
   #
   def self.get_reviews_from_user(id)
     reviews = db.execute('SELECT movie_id, score, review FROM user_watched WHERE user_id = ?', id)
@@ -131,18 +133,13 @@ class Movie  BaseModel
     i = 0
     while i  reviews.length
       output << {
-        'name' = movieNames[i].values.first,
-        'review' = reviews[i]['review'],
-        'score' = reviews[i]['score'],
-        'poster' = moviePosters[i].values.first
+        'name' => movieNames[i].values.first,
+        'review' => reviews[i]['review'],
+        'score' => reviews[i]['score'],
+        'poster' => moviePosters[i].values.first
       }
       i += 1
     end
     output
   end
 end
-
-
-# get all from user id
-
-# update

@@ -4,11 +4,10 @@ require 'digest'
 require 'securerandom'
 require 'bcrypt'
 
-require_relative 'models/base_model'
+require_relative 'models/base_model.rb'
 require_relative 'models/movies.rb'
 require_relative 'models/users.rb'
 require_relative 'models/friends.rb'
-
 
 
 class App < Sinatra::Base
@@ -83,6 +82,7 @@ class App < Sinatra::Base
       erb(:'/users/login')
     end
   end
+
   # Indexsidan hämtar dina filmer och alla andra användare. Ifall du inte har några filmer sparade kommer du skickas till sidan för att lägga till en film istället
   get '/index' do 
     @showprofile = true
@@ -95,12 +95,14 @@ class App < Sinatra::Base
       erb(:'/movies/add')
     end
   end
+
   # Formulär för att lägga till en film
   get '/movies/add' do
     @user = session[:user_id]
     @showprofile = true
     erb(:"/movies/add")
   end
+
   # Visar information om en film samt din recension
   get '/movies/show/:id' do |id|
     @user = session[:user_id]
@@ -109,15 +111,17 @@ class App < Sinatra::Base
     @review = Movie.get_review(id, session[:user_id]).first
     erb(:"/movies/movieinfo")
   end
+
   # Lägger till en film i ditt namn i movies och user_watched
   post '/movies/add' do
     Movie.add(params, session[:user_id])
     redirect("/")
   end
+  
   # Tar bort en film
   post '/movies/delete' do
     Movie.destroy(params['id'])
-    redirect("/")
+    redirect("/") 
   end
 
   # Lägger till en annan användare som vän
