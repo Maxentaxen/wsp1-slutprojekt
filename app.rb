@@ -109,6 +109,7 @@ class App < Sinatra::Base
     @showprofile = true
     @movieinfo = Movie.getInfo(id)
     @review = Movie.get_review(id, session[:user_id]).first
+
     erb(:"/movies/movieinfo")
   end
 
@@ -124,11 +125,24 @@ class App < Sinatra::Base
     redirect("/") 
   end
 
+
+  get '/movies/edit/:id' do |id |
+    @movieinfo = Movie.getInfo(id)
+    @review = Movie.get_review(id, session[:user_id]).first
+    ap @review
+    erb(:"/movies/edit")
+  end
+
+  post '/movies/edit/:id' do |id|
+    Movie.edit_review(session[:user_id], id, params)
+    redirect "/movies/show/#{id}"
+  end
+
   # Lägger till en annan användare som vän
   post '/users/addfriend/:id' do | id |
     Friends.add_friends(session[:user_id], id.to_i)
     
-    redirect "profile/#{id}"
+    redirect "users/profile/#{id}"
   end
 
   # Formulär för att skapa ett konto (användarnamn och lösenord)

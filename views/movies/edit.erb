@@ -22,13 +22,16 @@
                                                 right: 5%; 
                                                 top: 20%;
                                                 border-radius: 25px;">
-    <p>Your score: <%=@review['score']%></p>
+    <form method="POST" action="/movies/edit/<%=@movieinfo['id']%>">
+    <label for ="score">Your score: </label><input type="text" id="score" name="score"> <%=@review['score']%>
     <div class="reviewText">
         <div id="quotemark1">“</div>
-        <p><%=@review['review']%></p>
+        <textarea name="review"><%=@review['review']%></textarea>
         <div id="quotemark2">”</div> 
+        <input name="send" type="submit" value="Submit" style="color:black">
     </div>
-    <a href="/movies/edit/<%=@movieinfo['id']%>">Edit</a>
+
+    </form>
     </div>
 </body>
 </html>

@@ -123,7 +123,7 @@ class Movie < BaseModel
     reviews = db.execute('SELECT movie_id, score, review FROM user_watched WHERE user_id = ?', id)
     movie_ids = []
     reviews.each do | item |
-      movie_ids  item['movie_id']
+      movie_ids << item['movie_id']
     end
     placeholders = (['?'] * reviews.length).join(',')
     sql = "SELECT name FROM movies WHERE id IN (#{placeholders})"
@@ -131,7 +131,7 @@ class Movie < BaseModel
     moviePosters = db.execute("SELECT poster FROM movies WHERE id IN (#{placeholders})", movie_ids)
     output = []
     i = 0
-    while i  reviews.length
+    while i < reviews.length
       output << {
         'name' => movieNames[i].values.first,
         'review' => reviews[i]['review'],
@@ -141,5 +141,10 @@ class Movie < BaseModel
       i += 1
     end
     output
+  end
+
+  def self.edit_review(id, movie, params)
+    db.execute('UPDATE user_watched SET score = ?, review = ? WHERE movie_id == ? AND user_id == ?', [params['score'], params['review'], movie, id])
+
   end
 end
