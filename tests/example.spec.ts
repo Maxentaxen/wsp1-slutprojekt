@@ -1,15 +1,14 @@
 import { test, expect } from '@playwright/test';
 
 test('has title', async ({ page }) => {
-  await page.goto('localhost:9292');
-  await page.getByLabel('Username').fill("Maxentaxen");
+  await page.goto('localhost:9292'); // Öppnar sidan
+  await page.getByLabel('Username').fill("Maxentaxen"); // Fyller i användarnamn och lösenord
   await page.getByLabel('Password').fill("Password123");
 
-  await page.getByText('Log in').click()
+  await page.getByText('Log in').click(); // Trycker på knappen 
 
 
-  // Expect a title "to contain" a substring.
-  await expect(page.getByText('FLIXMAX')).toBeVisible();
+  await expect(page.getByText('FLIXMAX')).toBeVisible(); // Letar efter text
 });
 
 test('get started link', async ({ page }) => {
